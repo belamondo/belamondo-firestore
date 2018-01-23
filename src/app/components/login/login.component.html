@@ -1,0 +1,33 @@
+<div class="outer">
+  <div class="middle">
+    <div class="inner">
+      <mat-card>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div>
+              <mat-icon class="mat-18">email</mat-icon>
+              <mat-input-container floatPlaceholder="auto">
+                  <input matInput formControlName="email"
+                        type="text"
+                        required
+                        placeholder="E-mail">
+              </mat-input-container>
+            </div>
+
+            <div>
+              <mat-icon class="mat-18">lock</mat-icon>
+              <mat-input-container floatPlaceholder="auto">
+                  <input matInput formControlName="password"
+                         type="password"
+                         required
+                         placeholder="Senha">
+              </mat-input-container>
+            </div>
+            
+            <div>
+              <button mat-raised-button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+            </div>
+          </form>
+      </mat-card>
+    </div>
+  </div>
+</div>
