@@ -23,6 +23,11 @@ import {
 import { Routes, RouterModule } from '@angular/router';
 
 /**
+ * Components
+ */
+import { MenuComponent } from './components/menu/menu.component';
+
+/**
  * Modules
  */
 import { AngularFireModule } from 'angularfire2';
@@ -32,7 +37,6 @@ import { TextMaskModule } from 'angular2-text-mask';
 /**
  * Services
  */
-
 import { AuthenticationService } from './services/authentication.service';
 
 /**
@@ -87,10 +91,11 @@ import 'hammerjs';
     MatSnackBarModule,
     MatStepperModule,
     MatToolbarModule,
+    MenuComponent,
     ReactiveFormsModule,
     TextMaskModule
   ], declarations: [
-
+    MenuComponent
   ], providers: [
     AuthenticationService
   ]

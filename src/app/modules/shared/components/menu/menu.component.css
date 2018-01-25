@@ -1,0 +1,29 @@
+.menu-content-icon {
+    font-size: 40px;
+}
+
+#menu-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 800;
+    height: 100%;
+    width: 100%;
+    background: rgba(2, 39, 46, 0.9);
+    margin: 0;
+    padding: 0;
+}
+
+#menu-icon {
+    position: absolute;
+    z-index: 900;
+    color: rgb(255, 255, 255);
+}
+
+#menu-icon a {
+    z-index: 900;
+}
+
+#menu-icon a mat-icon{
+    z-index: 900;
+}

@@ -2,8 +2,12 @@
   <div class="middle">
     <div class="inner">
       <mat-card>
+          <div class="logo-outside">
+            <img src="./../assets/img/logo-outside.png" alt="Logo Bela Mondo">
+          </div>
+
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div>
+            <div class="form-pattern">
               <mat-icon class="mat-18">email</mat-icon>
               <mat-input-container floatPlaceholder="auto">
                   <input matInput formControlName="email"
@@ -13,7 +17,7 @@
               </mat-input-container>
             </div>
 
-            <div>
+            <div class="form-pattern">
               <mat-icon class="mat-18">lock</mat-icon>
               <mat-input-container floatPlaceholder="auto">
                   <input matInput formControlName="password"

@@ -10,13 +10,12 @@ $custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warning)
 
 @include angular-material-theme($custom-theme);
 
-$alt-primary: mat-palette($mat-pink);
-$alt-accent: mat-palette($mat-green, 600);
-$alt-warning: mat-palette($mat-red);
+.alternate-theme {
+    $alternate-primary: mat-palette($mat-grey, 50);
+    $alternate-accent:  mat-palette($mat-yellow, 400);
 
-$alt-theme: mat-light-theme($alt-primary, $alt-accent, $alt-warning);
+    $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
 
-.alternative {
-    @include angular-material-theme($alt-theme);
+    @include angular-material-theme($alternate-theme);
 }
 

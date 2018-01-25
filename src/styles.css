@@ -8,3 +8,53 @@ a {
   color: #000;
   cursor: pointer;
 }
+
+.box-left {
+  float: left;
+}
+
+.box-right {
+  float: right;
+}
+
+
+
+.form-pattern {
+  width: 100%;
+}
+
+.form-pattern mat-icon {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.form-pattern mat-input-container {
+  width: 95%;
+}
+
+.icon-pattern {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.logo-outside {
+  width: 100%;
+  text-align: center;
+  margin: 10px;
+}
+
+.logo-outside img {
+  width: 50%;
+}
+
+@media (max-width: 1399px) {
+  .form-pattern mat-input-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 424px) {
+  .form-pattern mat-input-container {
+    width: 75%;
+  }
+}
