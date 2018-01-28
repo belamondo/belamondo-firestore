@@ -25,6 +25,7 @@ import { Routes, RouterModule } from '@angular/router';
 /**
  * Components
  */
+import { DataTableComponent } from './components/data-table/data-table.component';
 import { MenuComponent } from './components/menu/menu.component';
 
 /**
@@ -74,6 +75,7 @@ import 'hammerjs';
     ReactiveFormsModule,
     TextMaskModule
   ], exports: [
+    DataTableComponent,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -95,6 +97,7 @@ import 'hammerjs';
     ReactiveFormsModule,
     TextMaskModule
   ], declarations: [
+    DataTableComponent,
     MenuComponent
   ], providers: [
     AuthenticationService

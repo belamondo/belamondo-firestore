@@ -15,31 +15,12 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  disease: any;
-
-  afsCollection: AngularFirestoreCollection<any>;
-  afsResponse$: Observable<any>;
-
-  constructor(private _afs: AngularFirestore) { }
+  public paramsToDataTable: any;
 
   ngOnInit() {
-    this.disease = {
+    this.paramsToDataTable = {
+      collection: 'diseases',
+      orderBy: [['cod', 'asc']]
     }
-  }
-
-  onClick = () => {
-    //let key;
-    this.afsCollection = this._afs.collection('diseases');
-
-    /*for(key in this.disease) {
-      this.afsCollection.add(this.disease[key]);
-    }*/
-    
-    this.afsResponse$ = this.afsCollection.valueChanges();
-
-    this.afsResponse$
-    .subscribe(res => {
-      console.log(res)
-    })
   }
 }
