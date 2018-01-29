@@ -18,7 +18,8 @@ import {
   MatSnackBarModule,
   MatStepperModule,
   MatToolbarModule,
-  MatGridListModule
+  MatGridListModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -66,6 +67,7 @@ import 'hammerjs';
     MatGridListModule,
     MatNativeDateModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,
     MatSlideToggleModule,
@@ -87,6 +89,7 @@ import 'hammerjs';
     MatGridListModule,
     MatNativeDateModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,
     MatSlideToggleModule,

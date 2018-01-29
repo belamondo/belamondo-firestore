@@ -29,6 +29,9 @@ export class DataTableComponent implements OnInit {
   private where: string = "";
 
   public error: any = [];
+  public dataToTable: any;
+  public getScrollEvent: any;
+  public loading: boolean;
 
   constructor(
     private _afs: AngularFirestore
@@ -36,6 +39,10 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit() {
     this.makeList();
+  }
+
+  clearScroll = () => {
+    clearTimeout(this.getScrollEvent);
   }
 
   makeList = () => {
@@ -116,7 +123,17 @@ export class DataTableComponent implements OnInit {
 
           this.afsResponse$
           .subscribe(res => {
-            console.log(res)
+            this.dataToTable = res.map(data => {
+              let temp = [];
+
+              for(let lim = this.params.list.show.length, i = 0; i < lim; i++){
+                temp.push(data[this.params.list.show[i]]);
+              }
+
+              this.loading = false;
+              
+              return temp;
+            })
           })
         } else { //params.outterData
 
@@ -130,8 +147,26 @@ export class DataTableComponent implements OnInit {
     }
   }
 
+  onScroll = (event) => {
+    this.clearScroll();
+
+    this.getScrollEvent = setTimeout(() => {
+      if(this.params.page == 1) {
+        if(event.target.scrollTop == 170) {
+          this.pageUp();
+        }
+      } else {
+        if(event.target.scrollTop == ((this.params.page - 1) * 370) + 170) {
+          this.pageUp();
+        }
+      }
+    }, 1000)
+  }
+
   pageUp = () => {
     this.params.page += 1;
+    this.loading = true;
+    
     this.makeList();
   }
 }

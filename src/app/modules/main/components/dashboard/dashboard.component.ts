@@ -20,7 +20,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.paramsToDataTable = {
       collection: 'diseases',
-      orderBy: [['cod', 'asc']]
+      orderBy: [['cod', 'asc']],
+      limit: 10,
+      list: {
+        show: ['cod', 'description']
+      }
     }
   }
 }

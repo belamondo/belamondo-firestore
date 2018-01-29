@@ -1,6 +1,18 @@
-<button mat-raised-button (click)="pageUp()">></button>
-<table>
-  <tr>
-    <th *ngIf=""></th>
-  </tr>
-</table>
+<mat-toolbar>
+  
+</mat-toolbar>
+
+<div class="data-table-container" (scroll)="onScroll($event)">
+  <div *ngFor="let data of dataToTable">
+    <div *ngFor="let item of data" class="data-table-item">{{ item }}</div>
+    <div class="clear-float"></div>
+  </div>
+</div>
+
+<mat-toolbar>
+  
+</mat-toolbar>
+
+<div class="loading" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
