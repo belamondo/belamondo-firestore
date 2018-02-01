@@ -1,18 +1,49 @@
 <mat-toolbar>
-  
+  <div id="header-toolbar-area">
+    <div id="header-toolbar-title">{{ params.headerToolbar.title }}</div>
+
+    <div class="form-pattern" id="header-toolbar-search-area" *ngIf="params.headerToolbar.search">
+      <mat-icon class="mat-18">search</mat-icon>
+
+      <mat-input-container floatPlaceholder="auto">
+        <input matInput type="text" placeholder="Pesquisar" [formControl]="search" (keyup)="onSearch(search.value)">
+      </mat-input-container>
+    </div>
+
+    <div class="clear-float"></div>
+  </div>
 </mat-toolbar>
 
 <div class="data-table-container" (scroll)="onScroll($event)">
-  <div *ngFor="let data of dataToTable">
+  <div *ngFor="let data of dataToTable; let i = index;">
     <div *ngFor="let item of data" class="data-table-item">{{ item }}</div>
-    <div class="clear-float"></div>
+
+    <div *ngIf="params.list.actionButton" id="action-button-area">
+      <div *ngFor="let button of params.list.actionButton;" class="action-button">
+        <div *ngIf="button.type == 'icon'">
+          <a>
+            <mat-icon class="mat-18" (click)="actionButtonOutput(dataToTable[i], button.value)">{{ button.value }}</mat-icon>
+          </a>
+        </div>
+
+        <div *ngIf="button.type == 'raised'">
+          <button mat-raised-button (click)="actionButtonOutput(dataToTable[i], button.value)">{{ button.value }}</button>
+        </div>
+
+        <div *ngIf="button.type == 'default'">
+          <button mat-button (click)="actionButtonOutput(dataToTable[i], button.value)">{{ button.value }}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="clear-float-list"></div>
   </div>
+</div>
+
+<div class="loading" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
 <mat-toolbar>
   
 </mat-toolbar>
-
-<div class="loading" *ngIf="loading">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div>

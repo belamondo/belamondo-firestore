@@ -1,4 +1,17 @@
+a {
+    cursor: pointer;
+}
+
+.action-button {
+    float: left;
+    margin-right: 5px;
+}
+
 .clear-float {
+    clear: both;
+}
+
+.clear-float-list {
     width: 100%;
     clear: both;
     border-bottom: solid 1px grey;
@@ -15,7 +28,48 @@
     margin: 10px 10px 10px 0;
 }
 
+.form-pattern {
+    width: 100%;
+}
+
+.form-pattern mat-icon {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.form-pattern mat-input-container {
+    width: 90%;
+}
+
 .loading {
     position: relative;
     width: 100%;
+}
+
+#action-button-area {
+    max-width: 10%;
+    float: right;
+    text-align: right;
+    right: 0;
+}
+
+#header-toolbar-area {
+    width: 100%;
+    height: 100%;
+}
+
+#header-toolbar-search-area {
+    width: 50%;
+    float: left;
+    text-align: right;
+    right: 0;
+}
+
+#header-toolbar-title {
+    width: 50%;
+    height: 100%;
+    float: left;
+    text-align: left;
+    padding-top: 25px;
+    right: 0;
 }

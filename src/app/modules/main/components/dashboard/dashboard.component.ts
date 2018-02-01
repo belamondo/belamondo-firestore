@@ -18,12 +18,35 @@ export class DashboardComponent implements OnInit {
   public paramsToDataTable: any;
 
   ngOnInit() {
+    this.makeList();
+  }
+
+  dealWithOutputFromDataTable = (event) => {
+    if(event._actionButtonReference == "edit") {
+      window.alert("Tratamento do lado do componente pai")
+    }
+  }
+
+  makeList = () => {
     this.paramsToDataTable = {
-      collection: 'diseases',
-      orderBy: [['cod', 'asc']],
-      limit: 10,
+      headerToolbar: {
+        title: "Lista de doenças",
+        search: true
+      },
       list: {
-        show: ['cod', 'description']
+        query: {
+          collection: "diseases",
+          orderBy: [["cod", "asc"]],
+          limit: 10,
+        },
+        show: ["cod", "description"],
+        actionButton: [{
+          type: "icon",
+          value: "edit"
+        }, {
+          type: "icon",
+          value: "delete"
+        }]
       }
     }
   }

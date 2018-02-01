@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +19,8 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 export class DataTableComponent implements OnInit {
   @Input() params;
 
+  @Output() outputFromDataTableList = new EventEmitter;
+
   private afsCollection: AngularFirestoreCollection<any>;
   private afsResponse$: Observable<any>;
 
@@ -27,22 +30,37 @@ export class DataTableComponent implements OnInit {
   private orderBy: string = "";
   private outterData: any;
   private where: string = "";
+  private searchString: string = "";
 
   public error: any = [];
   public dataToTable: any;
   public getScrollEvent: any;
+  public getShowInput: any;
   public loading: boolean;
+  public search: FormControl;
 
   constructor(
     private _afs: AngularFirestore
   ) { }
 
   ngOnInit() {
+    this.search = new FormControl();
+
     this.makeList();
+  }
+
+  actionButtonOutput = (data, buttonReference) => {
+    data._actionButtonReference = buttonReference;
+
+    this.outputFromDataTableList.emit(data);
   }
 
   clearScroll = () => {
     clearTimeout(this.getScrollEvent);
+  }
+
+  clearSearch = () => {
+    clearTimeout(this.getShowInput);
   }
 
   makeList = () => {
@@ -50,30 +68,30 @@ export class DataTableComponent implements OnInit {
       //Tratamento de parâmetros e erros: início
       
       //@param collection: string
-      if(!this.params.collection) {
+      if(!this.params.list.query.collection) {
         //@param outterData: Array<any>
-        if(!this.params.outterData) {
+        if(!this.params.list.query.outterData) {
           this.error.push({
             cod: 'dt-err-02',
-            message: 'Declarar coleção (params.collection: string) para consulta ou enviar vetor (params.outterData: Array(Object)) para montagem da lista'
+            message: 'Declarar coleção (params.list.query.collection: string) para consulta ou enviar vetor (params.list.query.outterData: Array(Object)) para montagem da lista'
           })
         }
-      } else if(this.params.collection && this.params.outterData) {
+      } else if(this.params.list.query.collection && this.params.list.query.outterData) {
         this.error.push({
           cod: 'dt-err-03',
-          message: 'Se declarar coleção (params.collection: string), não se pode ter ao mesmo tempo um vetor (params.outterData: Array(Object)) para montagem de lista, e vice-versa'
+          message: 'Se declarar coleção (params.list.query.collection: string), não se pode ter ao mesmo tempo um vetor (params.list.query.outterData: Array(Object)) para montagem de lista, e vice-versa'
         })
       } else {
-        if(this.params.collection) {
+        if(this.params.list.query.collection) {
           this.collection = "";
           this.limit = "";
           this.orderBy  = "";
           this.outterData = [];
           this.where = "";
 
-          this.collection = this.params.collection;
+          this.collection = this.params.list.query.collection;
         } else {
-          this.outterData = this.params.outterData;
+          this.outterData = this.params.list.query.outterData;
         }
       }
 
@@ -85,12 +103,10 @@ export class DataTableComponent implements OnInit {
       }
 
       //@param limit: number
-      if(!this.params.limit) {
-        console.log(this.params.page);
+      if(!this.params.list.query.limit) {
         this.limit = ".limit("+ (this.params.page * 5) +")"
       } else {
-        console.log(this.params.page);
-        this.limit = ".limit("+ (this.params.page * this.params.limit) +")"
+        this.limit = ".limit("+ (this.params.page * this.params.list.query.limit) +")"
       }
 
       //@param where: Array<Array> - e.g.: where: [['field1', '==', 'value1'], ['field2', '<=', 1000]]
@@ -105,18 +121,33 @@ export class DataTableComponent implements OnInit {
       }
 
       //@param orderBy: Array<Array> - e.g.: orderBy: [['field1', 'desc'], ['field2', 'asc']]
-      if(this.params.orderBy) {
-        for(let lim = this.params.orderBy.length, i = 0; i < lim; i++) {
-          this.orderBy += ".orderBy('"+this.params.orderBy[i][0] + "', '" + this.params.orderBy[i][1] + "')"; 
+      if(this.params.list.query.orderBy) {
+        for(let lim = this.params.list.query.orderBy.length, i = 0; i < lim; i++) {
+          this.orderBy += ".orderBy('"+this.params.list.query.orderBy[i][0] + "', '" + this.params.list.query.orderBy[i][1] + "')"; 
         }
       }
+
+      //@param actionButton: Array<any> - e.g.: actionButton: [{ type: 'icon', value: 'menu' }, { type: 'raised', value: 'Editar' }, { type: 'default', value: 'Entrar' }]
+
+      //@param searchString
+      if(this.params.inputToSearch) {
+        if(this.params.inputToSearch != "") {
+          for(let lim = this.params.list.show.length, i = 0; i < lim; i++) {
+            if(typeof this.params.inputToSearch == "number") {
+              this.searchString += ".where('" + this.params.list.show[i] + "', '>', " + this.params.inputToSearch + ")"
+            } else {
+              this.searchString += ".where('" + this.params.list.show[i] + "', '>', '" + this.params.inputToSearch + "')"
+            }
+          }
+        }
+      }
+
       //Tratamento de parâmetros e erros: fim
 
       if(this.error.length < 1) {
-        if(this.params.collection) {
-          let query = "this._afs.collection('" + this.collection + "', ref => ref" + this.limit + this.orderBy + this.where + ")";
-          console.log(query);
-
+        if(this.params.list.query.collection) {
+          let query = "this._afs.collection('" + this.collection + "', ref => ref" + this.limit + this.orderBy + this.where + this.searchString + ")";
+          console.log(query)
           this.afsCollection = eval(query);
 
           this.afsResponse$ = this.afsCollection.valueChanges();
@@ -135,7 +166,7 @@ export class DataTableComponent implements OnInit {
               return temp;
             })
           })
-        } else { //params.outterData
+        } else { //params.list.query.outterData
 
         }
       }
@@ -160,6 +191,16 @@ export class DataTableComponent implements OnInit {
           this.pageUp();
         }
       }
+    }, 1000)
+  }
+
+  onSearch = (inputToSearch) => {
+    this.clearSearch();
+
+    this.getShowInput = setTimeout(() => {
+      this.params.inputToSearch = inputToSearch;
+
+      this.makeList();
     }, 1000)
   }
 

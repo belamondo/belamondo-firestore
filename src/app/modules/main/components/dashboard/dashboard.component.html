@@ -1,3 +1,3 @@
 <mat-card>
-    <belamondo-data-table [params]="paramsToDataTable"></belamondo-data-table>
+    <belamondo-data-table [params]="paramsToDataTable" (outputFromDataTableList)="dealWithOutputFromDataTable($event)"></belamondo-data-table>
 </mat-card>

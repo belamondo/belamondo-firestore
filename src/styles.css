@@ -17,19 +17,17 @@ a {
   float: right;
 }
 
-
-
 .form-pattern {
   width: 100%;
 }
 
 .form-pattern mat-icon {
   vertical-align: middle;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .form-pattern mat-input-container {
-  width: 95%;
+  width: 90%;
 }
 
 .icon-pattern {
